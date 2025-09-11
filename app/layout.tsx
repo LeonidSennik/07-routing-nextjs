@@ -22,15 +22,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  modal,
+  sidebar,
+}: {
   children: React.ReactNode;
-}>) {
+  modal?: React.ReactNode;
+  sidebar?: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <TanStackProvider>
           <Header />
-          {children}
+          <div style={{ display: 'flex' }}>
+            {sidebar && <aside>{sidebar}</aside>}
+            <main style={{ flex: 1 }}>{children}</main>
+          </div>
+          {modal}
           <Footer />
         </TanStackProvider>
       </body>
