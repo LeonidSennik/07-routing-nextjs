@@ -10,7 +10,6 @@ export interface FetchNotesResponse {
   totalPages: number;
 }
 
-
 export const fetchNotes = async (
   page: number,
   tag?: string,

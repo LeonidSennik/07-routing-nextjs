@@ -1,24 +1,38 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { fetchNoteById } from '../../../../lib/api';
+import Modal from '../../../../components/Modal/Modal'; 
 import css from './NotePreview.module.css';
-import NoteDetails from '../../../notes/[id]/NoteDetails.client'; 
 
-export default function NotePreview({ params }: { params: { id: string } }) {
+interface NotePreviewProps {
+  id: string;
+}
+
+export default function NotePreview({ id }: NotePreviewProps) {
   const router = useRouter();
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['note', id],
+    queryFn: () => fetchNoteById(id),
+  });
 
   const handleClose = () => {
     router.back();
   };
 
   return (
-    <div className={css.overlay}>
-      <div className={css.modal}>
-        <button className={css.closeButton} onClick={handleClose}>
-          ×
-        </button>
-        <NoteDetails id={params.id} />
-      </div>
-    </div>
+    <Modal onClose={handleClose}>
+      {isLoading && <div className={css.loading}>Завантаження...</div>}
+      {error && <div className={css.error}>Помилка завантаження нотатки</div>}
+      {data && (
+        <div className={css.content}>
+          <h2>{data.title}</h2>
+          <p>{data.content}</p>
+          <span>Тег: {data.tag}</span>
+        </div>
+      )}
+    </Modal>
   );
 }

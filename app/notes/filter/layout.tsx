@@ -1,17 +1,18 @@
 export default function Layout({
   children,
   sidebar,
-  modal,
 }: {
   children: React.ReactNode;
   sidebar?: React.ReactNode;
-  modal?: React.ReactNode;
 }) {
   return (
-    <>
-      {sidebar}
-      {children}
-      {modal}
-    </>
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <aside style={{ width: '300px', borderRight: '1px solid #ddd' }}>
+        {sidebar}
+      </aside>
+      <main style={{ flex: 1, overflowY: 'auto' }}>
+        {children}
+      </main>
+    </div>
   );
 }
