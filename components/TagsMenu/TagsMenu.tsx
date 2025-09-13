@@ -10,6 +10,7 @@ export default function TagsMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(prev => !prev);
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <div className={css.menuContainer}>
@@ -28,7 +29,12 @@ export default function TagsMenu() {
             const href = `/notes/filter/${tag}`;
             return (
               <li key={tag} className={css.menuItem}>
-                <Link href={href} className={css.menuLink} aria-label={`Filter by ${tag}`}>
+                <Link
+                  href={href}
+                  className={css.menuLink}
+                  aria-label={`Filter by ${tag}`}
+                  onClick={closeMenu} 
+                >
                   {tag}
                 </Link>
               </li>
